@@ -1,0 +1,7 @@
+try:
+    # Example of a risky operation
+    inventory.load_from_file("books.json")
+except Exception as e:
+    print(f"Error occurred: {e}")
+finally:
+    print("Operation completed.")
