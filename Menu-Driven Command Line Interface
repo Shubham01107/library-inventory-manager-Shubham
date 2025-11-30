@@ -1,0 +1,61 @@
+def main():
+    inventory = LibraryInventory()
+    inventory.load_from_file("books.json")  # Load existing books if any
+
+    while True:
+        print("\nLibrary Menu:")
+        print("1. Add Book")
+        print("2. Issue Book")
+        print("3. Return Book")
+        print("4. View All Books")
+        print("5. Search Book by Title")
+        print("6. Search Book by ISBN")
+        print("7. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == '1':
+            title = input("Enter title: ")
+            author = input("Enter author: ")
+            isbn = input("Enter ISBN: ")
+            book = Book(title, author, isbn)
+            inventory.add_book(book)
+            print(f"Book '{title}' added to the inventory.")
+        elif choice == '2':
+            isbn = input("Enter ISBN to issue: ")
+            book = next((b for b in inventory.books if b.isbn == isbn), None)
+            if book and book.is_available():
+                book.issue()
+                print(f"Book '{book.title}' issued.")
+            else:
+                print("Book not found or already issued.")
+        elif choice == '3':
+            isbn = input("Enter ISBN to return: ")
+            book = next((b for b in inventory.books if b.isbn == isbn), None)
+            if book and not book.is_available():
+                book.return_book()
+                print(f"Book '{book.title}' returned.")
+            else:
+                print("Book not found or not issued.")
+        elif choice == '4':
+            inventory.display_all()
+        elif choice == '5':
+            title = input("Enter title to search: ")
+            books = inventory.search_by_title(title)
+            for book in books:
+                print(book)
+        elif choice == '6':
+            isbn = input("Enter ISBN to search: ")
+            books = inventory.search_by_isbn(isbn)
+            for book in books:
+                print(book)
+        elif choice == '7':
+            inventory.save_to_file("books.json")  # Save books before exit
+            print("Goodbye!")
+            break
+        else:
+            print("Invalid choice, please try again.")
+
+# Run the main function
+if __name__ == "__main__":
+    main()
