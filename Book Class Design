@@ -1,0 +1,27 @@
+class Book:
+    def __init__(self, title, author, isbn):
+        self.title = title  # Book title
+        self.author = author  # Book author
+        self.isbn = isbn  # Book ISBN
+        self.status = "available"  # Default status is 'available'
+
+    def __str__(self):
+        return f"Title: {self.title}, Author: {self.author}, ISBN: {self.isbn}, Status: {self.status}"
+
+    def issue(self):
+        """Marks the book as issued."""
+        if self.status == "available":
+            self.status = "issued"
+        else:
+            print(f"The book '{self.title}' is already issued.")
+
+    def return_book(self):
+        """Marks the book as returned and available."""
+        if self.status == "issued":
+            self.status = "available"
+        else:
+            print(f"The book '{self.title}' was not issued.")
+
+    def is_available(self):
+        """Checks if the book is available."""
+        return self.status == "available"
